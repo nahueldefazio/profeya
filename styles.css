@@ -1,17 +1,17 @@
 /* Reset y Variables */
 :root {
-    --primary-color: #2563eb;
-    --primary-dark: #1e40af;
-    --secondary-color: #10b981;
-    --text-dark: #1f2937;
-    --text-light: #6b7280;
-    --bg-light: #f9fafb;
-    --bg-white: #ffffff;
-    --border-color: #e5e7eb;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --primary-color: #1d3557;   /* azul universitario */
+    --primary-dark: #112233;
+    --secondary-color: #e63946; /* acento sobrio */
+    --text-dark: #111827;
+    --text-light: #4b5563;
+    --bg-light: #e5e7eb;
+    --bg-white: #f9fafb;
+    --border-color: #d1d5db;
+    --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.12);
+    --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.16);
 }
 
 * {
@@ -25,10 +25,11 @@ html {
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: var(--text-dark);
     line-height: 1.6;
     overflow-x: hidden;
+    background: var(--bg-light);
 }
 
 .container {
@@ -43,7 +44,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(249, 250, 251, 0.96);
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow-sm);
     z-index: 1000;
@@ -63,6 +64,8 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-color);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 .nav-links {
@@ -102,11 +105,13 @@ body {
 /* Hero Section */
 .hero {
     position: relative;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: radial-gradient(circle at 0% 0%, #e5e7eb 0, #cbd5f5 18%, #1d3557 55%, #0b1726 100%);
     color: white;
     padding: 150px 0 100px;
     margin-top: 70px;
     overflow: hidden;
+    background-size: 200% 200%;
+    animation: heroGradient 14s ease-in-out infinite alternate;
 }
 
 .hero-content {
@@ -115,10 +120,12 @@ body {
     margin: 0 auto;
     position: relative;
     z-index: 1;
+    animation: floatUp 6s ease-in-out infinite;
 }
 
 .hero-title {
     font-size: 3.5rem;
+    font-family: 'Merriweather', 'Times New Roman', serif;
     font-weight: 700;
     margin-bottom: 1rem;
     line-height: 1.2;
@@ -149,7 +156,7 @@ body {
     border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
-    transition: all 0.3s;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
     display: inline-block;
     border: none;
     cursor: pointer;
@@ -157,7 +164,7 @@ body {
 }
 
 .btn-primary {
-    background: white;
+    background: var(--bg-white);
     color: var(--primary-color);
 }
 
@@ -175,6 +182,11 @@ body {
 .btn-secondary:hover {
     background: white;
     color: var(--primary-color);
+}
+
+.btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-lg);
 }
 
 .btn-block {
@@ -203,6 +215,7 @@ section {
 
 .section-title {
     font-size: 2.5rem;
+    font-family: 'Merriweather', 'Times New Roman', serif;
     font-weight: 700;
     text-align: center;
     margin-bottom: 1rem;
@@ -214,6 +227,22 @@ section {
     color: var(--text-light);
     font-size: 1.1rem;
     margin-bottom: 3rem;
+}
+
+/* Animaciones de aparición para tarjetas y features */
+.materia-card,
+.clase-card,
+.feature-item {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.materia-card.is-visible,
+.clase-card.is-visible,
+.feature-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Materias Section */
@@ -228,7 +257,7 @@ section {
 }
 
 .materia-card {
-    background: white;
+    background: var(--bg-white);
     padding: 2rem;
     border-radius: 12px;
     text-align: center;
@@ -264,7 +293,7 @@ section {
 }
 
 .clase-card {
-    background: white;
+    background: var(--bg-white);
     padding: 2.5rem 2rem;
     border-radius: 12px;
     box-shadow: var(--shadow-md);
@@ -379,7 +408,7 @@ section {
 }
 
 .whatsapp-content {
-    background: white;
+    background: var(--bg-white);
     padding: 4rem 3rem;
     border-radius: 20px;
     box-shadow: var(--shadow-xl);
@@ -392,6 +421,27 @@ section {
     font-size: 5rem;
     margin-bottom: 1.5rem;
     animation: pulse 2s infinite;
+}
+
+@keyframes heroGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes floatUp {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
 }
 
 @keyframes pulse {
@@ -501,6 +551,48 @@ section {
     color: rgba(255, 255, 255, 0.6);
 }
 
+/* Botones flotantes */
+.floating-buttons {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 1100;
+}
+
+.float-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    font-size: 1.5rem;
+}
+
+.float-btn-whatsapp {
+    background: #25D366;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.float-btn-top {
+    background: var(--primary-color);
+    color: #ffffff;
+    display: none; /* se muestra al hacer scroll */
+}
+
+.float-btn:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: var(--shadow-xl);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-links {
@@ -508,7 +600,7 @@ section {
         top: 70px;
         left: -100%;
         flex-direction: column;
-        background: white;
+        background: var(--bg-white);
         width: 100%;
         padding: 2rem;
         box-shadow: var(--shadow-lg);

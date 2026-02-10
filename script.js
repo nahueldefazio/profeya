@@ -16,11 +16,29 @@ links.forEach(link => {
     });
 });
 
-// Smooth scroll for anchor links
+// Smooth scroll para enlaces de ancla
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const href = this.getAttribute('href');
+
+        // Para "Contacto", centramos específicamente el botón de WhatsApp
+        if (href === '#contacto') {
+            const whatsappBtn = document.querySelector('.btn-whatsapp');
+            if (whatsappBtn) {
+                const rect = whatsappBtn.getBoundingClientRect();
+                const absoluteElTop = rect.top + window.pageYOffset;
+                const offset = absoluteElTop - (window.innerHeight / 2) + (rect.height / 2);
+
+                window.scrollTo({
+                    top: offset,
+                    behavior: 'smooth'
+                });
+                return;
+            }
+        }
+
+        const target = document.querySelector(href);
         if (target) {
             const headerOffset = 80;
             const elementPosition = target.getBoundingClientRect().top;
@@ -34,9 +52,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Header scroll effect
+// Header scroll effect + mostrar botón "arriba"
 let lastScroll = 0;
 const header = document.querySelector('.header');
+const scrollTopBtn = document.querySelector('.float-btn-top');
 
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
@@ -46,34 +65,46 @@ window.addEventListener('scroll', () => {
     } else {
         header.style.boxShadow = '0 1px 2px 0 rgba(0, 0, 0, 0.05)';
     }
+
+    if (scrollTopBtn) {
+        scrollTopBtn.style.display = currentScroll > 350 ? 'flex' : 'none';
+    }
     
     lastScroll = currentScroll;
 });
 
 
-// Intersection Observer for fade-in animations
+// Intersection Observer para animaciones de aparición
 const observerOptions = {
     threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    rootMargin: '0px 0px -80px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
-// Observe cards for animation
+// Observar secciones y tarjetas para animación
 document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.materia-card, .clase-card, .feature-item');
-    
-    cards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(card);
+    const elementsToReveal = document.querySelectorAll(
+        '.materia-card, .clase-card, .feature-item, ' +
+        '.section-title, .section-subtitle, .metodologia-content, ' +
+        '.whatsapp-content, .footer-content'
+    );
+
+    elementsToReveal.forEach(el => {
+        observer.observe(el);
     });
+
+    // Acción del botón "volver arriba"
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 });
