@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ProfeYa · Tres propuestas de diseño</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#e9e9e7;color:#202223}.bar{min-height:88px;padding:18px 28px;display:flex;gap:24px;align-items:center;border-bottom:1px solid #d1d1ce;background:#fff}.brand{font-weight:800;font-size:20px;white-space:nowrap}.brand small{display:block;font-size:11px;font-weight:400;margin-top:5px;color:#666}.options{display:flex;gap:6px;flex:1;justify-content:center}button{border:1px solid #ddd;background:#fff;border-radius:8px;padding:12px 16px;cursor:pointer;font:inherit;font-size:13px;color:#414141}button[aria-pressed=true]{background:#202223;color:#fff;border-color:#202223}button:focus-visible,a:focus-visible{outline:3px solid #468bff;outline-offset:3px}.open{font-size:12px;color:#333;white-space:nowrap}.description{padding:10px 24px;text-align:center;font-size:12px;color:#595959;line-height:1.5;margin:0}iframe{display:block;width:100%;height:calc(100dvh - 127px);border:0;background:#fff}@media(max-width:700px){.bar{padding:12px;gap:12px;flex-wrap:wrap}.brand{font-size:17px}.brand small{display:none}.open{margin-left:auto}.options{order:3;flex-basis:100%;justify-content:stretch}.options button{flex:1;padding:10px 4px;font-size:12px}.description{padding:8px 12px;min-height:52px}iframe{height:calc(100dvh - 160px)}}
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <div class="brand">ProfeYa <small>Exploración de diseño</small></div>
+    <nav class="options" aria-label="Elegir propuesta">
+      <button type="button" data-design="academico" aria-pressed="true" aria-controls="preview">01 · Académico</button>
+      <button type="button" data-design="cuaderno" aria-pressed="false" aria-controls="preview">02 · Cuaderno</button>
+      <button type="button" data-design="laboratorio" aria-pressed="false" aria-controls="preview">03 · Laboratorio</button>
+    </nav>
+    <a class="open" id="open" href="disenos/academico.html" target="_blank" rel="noopener">Abrir diseño ↗</a>
+  </header>
+  <p class="description" id="description" aria-live="polite">Azul profundo, tipografía editorial y una estructura clara. Una presencia profesional y cercana.</p>
+  <iframe id="preview" src="disenos/academico.html" title="Vista previa del diseño Académico"></iframe>
+  <script>
+    const descriptions = {
+      academico: 'Azul profundo, tipografía editorial y una estructura clara. Una presencia profesional y cercana.',
+      cuaderno: 'Papel crema, verde bosque y apuntes a mano. El foco está en aprender acompañado, a tu ritmo.',
+      laboratorio: 'Fondo oscuro, acentos lima y gráficos técnicos. Una identidad orientada a ciencias e ingeniería.'
+    };
+    const buttons = document.querySelectorAll('[data-design]');
+    function choose(name) {
+      if (!Object.hasOwn(descriptions, name)) name = 'academico';
+      buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.design === name)));
+      document.getElementById('description').textContent = descriptions[name];
+      document.getElementById('preview').src = 'disenos/' + name + '.html';
+      document.getElementById('preview').title = 'Vista previa del diseño ' + name;
+      document.getElementById('open').href = 'disenos/' + name + '.html';
+    }
+    buttons.forEach(button => button.addEventListener('click', () => { location.hash = button.dataset.design; }));
+    window.addEventListener('hashchange', () => choose(location.hash.slice(1)));
+    if (location.hash) choose(location.hash.slice(1));
+  </script>
+</body>
+</html>
